@@ -19,7 +19,7 @@ public class HttpServer {
 
     public static void main(String[] args) throws Throwable {
         ServerSocket serverSocket = new ServerSocket(8080);
-        WorkQueue workQueue = new WorkQueue(1);
+        WorkQueue workQueue = new WorkQueue(4);
         while (true) {
             Socket socket = serverSocket.accept();
             workQueue.execute(new SocketProcessor(socket));
@@ -47,7 +47,8 @@ public class HttpServer {
                 if (!method.equals("GET") && !method.equals("HEAD")){
                     getHeader(405, "", 0);
                 }
-                if (path.contains("../") && (!new File(path).getCanonicalPath().contains(DEFAULT_FILES_DIR))){
+                if (path.contains("../") && (!new File(path).getCanonicalPath().contains(DEFAULT_FILES_DIR))
+                        && (path.indexOf(DEFAULT_FILES_DIR) == 0)){
                     getHeader(403, "", 0);
                 } else {
                     path = URLDecoder.decode(path);
