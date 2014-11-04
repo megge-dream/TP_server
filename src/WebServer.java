@@ -13,11 +13,11 @@ public class WebServer extends Thread {
         {
             Integer port = 8080;
             ServerSocket server = new ServerSocket(port);
-            WorkQueue workQueue = new WorkQueue(4);
+            ThreadPool threadPool = new ThreadPool();
             while(true)
             {
                 Socket socket = server.accept();
-                workQueue.execute(new WebSocket(socket));
+                threadPool.addTask(new WebSocket(socket));
             }
         }
         catch(Exception e)
