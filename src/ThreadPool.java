@@ -1,8 +1,6 @@
 /**
  * Created by megge on 02.11.14.
  */
-import com.sun.tools.javac.util.GraphUtils;
-
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
@@ -45,7 +43,7 @@ public class ThreadPool extends Thread {
                         workerPool.wait();
                     }
                 } else {
-                    // Запускаем следующую задачу из писка задач
+                    // Запускаем следующую задачу из списка задач
                     try {
                         Worker newWorker = getWorker();
                         newWorker.setTask((Runnable) taskList.removeLast());
@@ -80,7 +78,6 @@ public class ThreadPool extends Thread {
         Worker w = (Worker) workerPool.getLast();
         workerPool.remove();
         return w;
-//        return (Worker) workerPool.removeLast();
     }
 
     public boolean isStopped() {
